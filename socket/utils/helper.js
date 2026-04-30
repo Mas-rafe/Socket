@@ -15,5 +15,23 @@ export function validateOrder(data) {
             valid: false, message: 'Customer address is required'
         }
     }
+    if (!Array.isArray(data.items)) {
+        return {
+
+            valid: false, message: 'Order must have at least one item'
+        }
+    }
+    return { valid: true }
+
+}
+
+
+// order id generator -> format : ORD-20260421
+export function generateOrderId() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const random = Math.floor(Math.random() * 1000)
 
 }

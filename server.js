@@ -8,6 +8,8 @@ import { connectDB, getCollection, closeDB } from './config/database.js';
 import { Server } from "socket.io";
 import http from "http";
 import { orderHandler} from './socket/orderHandler.js';
+import { generateOrderId } from './socket/utils/helper.js';
+
 // Load environment variables
 dotenv.config();
 
@@ -19,12 +21,16 @@ const server = http.createServer(app);
 const io = new Server(server,{ cors: { origin:"*" , methods: ["GET" , "POST"]} });
 
 io.on("connection", (socket) => {
-  console.log('an user connected',socket.id);
+   console.log('an user connected',socket.id);
   socket.emit("connected",{message: `User ${socket.id} connected`});
 
+  // order id
+  console.log(generateOrderId());
+  
   // for handeling the orders
   
   orderHandler(io,socket);
+ 
   
 });
 
